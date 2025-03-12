@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pilem/models/movie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,11 +66,17 @@ class _DetailScreenState extends State<DetailScreen> {
             children: [
               Stack(
                 children: [
-                 Image.network(
-                  'https://image.tmdb.org/t/p/w500${widget.movie.backdropPath}',
+                 CachedNetworkImage(
+                  imageUrl: 'https://image.tmdb.org/t/p/w500${widget.movie.backdropPath}',
                   width: double.infinity,
                   height: 300,
                   fit: BoxFit.cover,
+                  placeholder: (context, url){
+                    return Center(
+                      child: CircularProgressIndicator(color: Colors.blue,),
+                    );
+                  },
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ), 
                 Positioned(
                   bottom: 8,
